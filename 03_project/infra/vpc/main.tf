@@ -66,13 +66,17 @@ resource "aws_eip" "aws02-eip" {
   lifecycle {
     create_before_destroy = true
   }
+
+  tags = {
+    Name = "aws02-eip"
+  }
 }
 
 // NAT 게이트웨이
 resource "aws_nat_gateway" "aws02-nat" {
   allocation_id = aws_eip.aws02-eip.id
   subnet_id     = aws_subnet.aws02-public-subnet-2a.id
-  depends_on = [ aws_internet_gateway.aws02-igw ]
+  depends_on = [aws_internet_gateway.aws02-igw]
 
   tags = {
     Name = "aws02-nat"
